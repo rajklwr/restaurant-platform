@@ -7,9 +7,16 @@ const connectDB = require("./config/db");
 dotenv.config();
 connectDB();
 
+const corsOptions = {
+    origin: 'http://192.168.174.142:3000',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+  };
+  
+
 const app = express();
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors(corsOptions));
 
 // Import routes
 app.use("/api/auth", require("./routes/auth"));

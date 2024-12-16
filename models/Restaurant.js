@@ -4,16 +4,17 @@ const Schema = mongoose.Schema;
 const subscriptionSchema = new Schema({
   plan: {
     type: String,
-    enum: ['Basic', 'Standard', 'Premium'],
+    enum: ['Free', 'Basic', 'Standard', 'Premium'], // Added 'Free' option
     required: true,
+    default: 'Free', // Set 'Free' as the default plan
   },
   start_date: {
     type: Date,
     required: true,
+    default: Date.now, // Default to the current date
   },
   end_date: {
     type: Date,
-    required: true,
   },
 });
 
@@ -24,7 +25,7 @@ const restaurantSchema = new Schema({
   },
   subdomain: {
     type: String,
-    required: true,
+    // required: true,
     unique: true,
     lowercase: true,
     trim: true,
@@ -35,16 +36,17 @@ const restaurantSchema = new Schema({
   },
   phone: {
     type: String,
-    required: true,
+    // required: true,
   },
   owner_id: {
     type: Schema.Types.ObjectId,
     ref: 'User', // Reference to the User model (owner)
-    required: true,
+    // required: true,
   },
   subscription: {
     type: subscriptionSchema,
     required: true,
+    default: () => ({ plan: 'Free', start_date: Date.now() }), // Default to 'Free' plan
   },
   logo_url: {
     type: String,
