@@ -3,9 +3,9 @@ const { getMenuByRestaurant, addMenuItem, updateMenuItem, deleteMenuItem } = req
 const router = express.Router();
 const authMiddleware = require('../middlewares/authMiddleware');
 
-router.get("/", authMiddleware, getMenuByRestaurant);
+router.get("", authMiddleware, getMenuByRestaurant);
 router.post("/", authMiddleware, addMenuItem);
-router.put("/:itemId", authMiddleware,  updateMenuItem);
-router.delete("/:itemId", authMiddleware, deleteMenuItem);
+router.put("/:restaurant_id/item/:itemId", authMiddleware,  updateMenuItem);
+router.delete("/:restaurant_id/item/:itemId", authMiddleware, deleteMenuItem);
 
 module.exports = router;

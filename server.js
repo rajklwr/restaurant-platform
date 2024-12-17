@@ -8,7 +8,7 @@ dotenv.config();
 connectDB();
 
 const corsOptions = {
-    origin: 'http://192.168.174.142:3000',
+    origin: 'http://192.168.1.4:3000',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
   };

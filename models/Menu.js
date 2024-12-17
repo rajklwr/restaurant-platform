@@ -5,7 +5,6 @@ const menuItemSchema = new Schema({
   item_id: {
     type: Schema.Types.ObjectId,
     required: true,
-    unique: true,
   },
   name: {
     type: String,
