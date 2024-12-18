@@ -7,11 +7,22 @@ const connectDB = require("./config/db");
 dotenv.config();
 connectDB();
 
+const allowedOrigins = process.env.CORS_ALLOWED_ORIGINS.split(',');
+
 const corsOptions = {
-    origin: 'http://192.168.1.4:3000',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization']
-  };
+  origin: function (origin, callback) {
+      // Check if the incoming request's origin is in the allowedOrigins list
+      if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+          // If it matches one of the allowed origins or no origin (for non-browser requests like Postman), proceed
+          callback(null, true);
+      } else {
+          // If the origin is not allowed, reject the request
+          callback(new Error('Not allowed by CORS'));
+      }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+};
   
 
 const app = express();
