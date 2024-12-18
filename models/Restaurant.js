@@ -4,14 +4,14 @@ const Schema = mongoose.Schema;
 const subscriptionSchema = new Schema({
   plan: {
     type: String,
-    enum: ['Free', 'Basic', 'Standard', 'Premium'], // Added 'Free' option
+    enum: ['Free', 'Basic', 'Standard', 'Premium'], 
     required: true,
-    default: 'Free', // Set 'Free' as the default plan
+    default: 'Free', 
   },
   start_date: {
     type: Date,
     required: true,
-    default: Date.now, // Default to the current date
+    default: Date.now, 
   },
   end_date: {
     type: Date,
@@ -25,7 +25,6 @@ const restaurantSchema = new Schema({
   },
   subdomain: {
     type: String,
-    // required: true,
     unique: true,
     lowercase: true,
     trim: true,
@@ -36,17 +35,15 @@ const restaurantSchema = new Schema({
   },
   phone: {
     type: String,
-    // required: true,
   },
   owner_id: {
     type: Schema.Types.ObjectId,
-    ref: 'User', // Reference to the User model (owner)
-    // required: true,
+    ref: 'User', 
   },
   subscription: {
     type: subscriptionSchema,
     required: true,
-    default: () => ({ plan: 'Free', start_date: Date.now() }), // Default to 'Free' plan
+    default: () => ({ plan: 'Free', start_date: Date.now() }), 
   },
   logo_url: {
     type: String,
@@ -61,7 +58,6 @@ const restaurantSchema = new Schema({
   },
 });
 
-// Update 'updated_at' field before saving
 restaurantSchema.pre('save', function(next) {
   this.updated_at = Date.now();
   next();

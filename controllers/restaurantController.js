@@ -1,5 +1,23 @@
 const Restaurant = require("../models/Restaurant");
 
+
+exports.getRestaurantDetails = async (req, res) => {
+    try {
+      // Fetch the restaurant based on the owner's ID (using req.user._id)
+      const restaurant = await Restaurant.findOne({ owner_id: req.user._id });
+  
+      if (!restaurant) {
+        return res.status(404).json({ message: 'Restaurant not found' });
+      }
+  
+      // Return restaurant details
+      res.status(200).json({ success : true, restaurant});
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Server error' });
+    }
+  };
+
 exports.getAllRestaurants = async (req, res) => {
     try {
         const restaurants = await Restaurant.find();
