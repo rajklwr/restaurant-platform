@@ -10,7 +10,7 @@ exports.getMenuByRestaurant = async (req, res) => {
       return res.status(400).json({ error: "Restaurant ID is required." });
     }
 
-    // Fetch menu grouped by categories
+    // Fetch menu grouped by categories and sorted in the desired order
     const menu = await Menu.aggregate([
       { $match: { restaurant_id: restaurant_id } },
       { $unwind: "$items" },
@@ -21,6 +21,22 @@ exports.getMenuByRestaurant = async (req, res) => {
           restaurant_id: { $first: "$restaurant_id" },
         },
       },
+      {
+        $addFields: {
+          category_priority: {
+            $switch: {
+              branches: [
+                { case: { $eq: ["$_id", "Main Course"] }, then: 1 },
+                { case: { $eq: ["$_id", "Appetizers"] }, then: 2 },
+                { case: { $eq: ["$_id", "Desserts"] }, then: 3 },
+                { case: { $eq: ["$_id", "Drinks"] }, then: 4 },
+              ],
+              default: 5, // Default priority for unexpected categories
+            },
+          },
+        },
+      },
+      { $sort: { category_priority: 1 } }, // Sort by priority
       {
         $project: {
           category: "$_id",
@@ -39,6 +55,7 @@ exports.getMenuByRestaurant = async (req, res) => {
       .json({ error: "Internal server error. Please try again later." });
   }
 };
+
 
 exports.addMenuItem = async (req, res) => {
   const { category, items } = req.body;
