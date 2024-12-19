@@ -5,7 +5,7 @@ exports.getRestaurantDetails = async (req, res) => {
     try {
       // Fetch the restaurant based on the owner's ID (using req.user._id)
       console.log('request :', req);
-      const restaurant = await Restaurant.findOne({ owner_id: req.user._id });
+      const restaurant = await Restaurant.findOne({ owner_id: req.id });
   
       if (!restaurant) {
         return res.status(404).json({ message: 'Restaurant not found' });
