@@ -3,7 +3,7 @@ const {getRestaurantDetails, getAllRestaurants, getRestaurantById, createRestaur
 const router = express.Router();
 const authMiddleware = require('../middlewares/authMiddleware');
 
-router.get("/details", authMiddleware, getAllRestaurants);
+router.get("/details", authMiddleware, getRestaurantDetails);
 router.get("/", authMiddleware, getAllRestaurants);
 router.get("/:id", authMiddleware, getRestaurantById);
 router.post("/", authMiddleware, createRestaurant);
