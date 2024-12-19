@@ -47,6 +47,7 @@ const restaurantSchema = new Schema({
   },
   logo_url: {
     type: String,
+    default : 'https://via.placeholder.com/150'
   },
   created_at: {
     type: Date,
